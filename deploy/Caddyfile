@@ -1,0 +1,18 @@
+{$DOMAIN} {
+	encode gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+
+	# Caddy 自动申请并续期 Let's Encrypt 证书，反向代理到 Flask/Gunicorn
+	reverse_proxy web:8000
+}
+
+# 如需 www 访问：先给 www 添加 A 记录，再取消下面注释
+# www.{$DOMAIN} {
+# 	redir https://{$DOMAIN}{uri} permanent
+# }

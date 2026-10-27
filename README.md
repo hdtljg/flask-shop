@@ -52,6 +52,18 @@ docker compose up -d --build
 docker compose exec web python deploy/create_admin.py --username admin
 ```
 
+## 云服务器 + 域名
+
+长期公网访问使用 `docker-compose.prod.yml` + Caddy 自动 HTTPS：
+
+```bash
+cp .env.example .env
+# 填写 DOMAIN、SECRET_KEY、MYSQL_ROOT_PASSWORD、MYSQL_PASSWORD
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+完整步骤（服务器选购、域名、ICP 备案、HTTPS、备份）见 [CLOUD_DEPLOY.md](CLOUD_DEPLOY.md)。
+
 ## 目录结构
 
 ```
@@ -66,6 +78,8 @@ templates/             Jinja2 模板
 static/                静态资源
 deploy/                部署脚本与配置
 DEPLOY.md              部署指南
+CLOUD_DEPLOY.md        云服务器 + 域名部署指南
+docker-compose.prod.yml 生产环境 Docker Compose
 ```
 
 ## 数据说明

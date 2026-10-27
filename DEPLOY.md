@@ -16,6 +16,8 @@
 
 三种方案使用同一份代码和同一个数据库导出文件 `deploy/flask_data.sql`。
 
+> 云服务器 + 域名 + Docker + Caddy 自动 HTTPS 的长期方案见 [CLOUD_DEPLOY.md](CLOUD_DEPLOY.md)。
+
 ---
 
 ## 1. 部署到底在部署什么
