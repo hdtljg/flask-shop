@@ -69,7 +69,7 @@ py -3.12 -m venv .venv
 
 本项目**不会自动建表**，必须导入 `deploy/flask_data.sql`（结构 + 初始数据），或者连接一个已经存在的 `flask_data` 库。
 
-> 如果是刚从 GitHub 克隆的仓库：`deploy/flask_data.sql` 出于隐私原因不在仓库里，可先执行 `deploy/00-schema.sql` 创建空表，再用 `deploy/create_admin.py` 创建管理员。
+> 仓库中已附带演示数据 `deploy/flask_data.sql`；如果要使用自己的数据，替换该文件后重新导入。
 
 在 Windows 上导入：
 

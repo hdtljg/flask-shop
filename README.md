@@ -44,7 +44,7 @@ docker compose up -d --build
 
 访问 <http://127.0.0.1:8000/login>。
 
-仓库包含 `deploy/00-schema.sql`（空表结构），首次启动会自动建表。若本地存在 `deploy/flask_data.sql`（含完整数据，已被 `.gitignore` 排除），会先建表再导入数据。完整部署步骤见 [DEPLOY.md](DEPLOY.md)。
+仓库包含 `deploy/00-schema.sql`（表结构）和 `deploy/flask_data.sql`（演示数据），首次启动会自动建表并导入数据。完整部署步骤见 [DEPLOY.md](DEPLOY.md)。
 
 创建管理员：
 
@@ -68,15 +68,11 @@ deploy/                部署脚本与配置
 DEPLOY.md              部署指南
 ```
 
-## 数据与隐私说明
+## 数据说明
 
-本仓库不包含以下内容：
+仓库包含演示数据库 `deploy/flask_data.sql` 和示例图片。其中用户姓名、学号、手机号均为虚构，仅用于课程演示。
 
-- `.env`：包含数据库密码和 `SECRET_KEY`
-- `deploy/flask_data.sql`：开发库导出，含真实用户姓名、学号、手机号和密码哈希
-- `static/img/upload/`：用户上传的头像和商品图片
-
-仓库只保留空表结构 `deploy/00-schema.sql`。克隆后请自行创建 `.env`，按需导入自己的数据。示例配置见 `.env.example`，部署步骤见 [DEPLOY.md](DEPLOY.md)。
+`.env` 不包含在仓库中（里面是数据库密码和 `SECRET_KEY`），克隆后请复制 `.env.example` 并修改。若要在真实环境使用，请替换演示数据，不要把真实用户信息提交到公开仓库。部署步骤见 [DEPLOY.md](DEPLOY.md)。
 
 ## License
 
