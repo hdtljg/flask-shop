@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .goods-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .goods-table th, .goods-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .goods-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .goods-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .btn {
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        .btn-primary {
+            background-color: #2196F3;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .btn-primary:hover {
+            background-color: #1976D2;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .goods-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+              /* 添加专门的按钮容器 */
+        .button-container {
+            margin: 20px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin_dashboard" class="back-link">返回管理员仪表板</a>
+        <h1>商品管理</h1>
+
+        {% if message %}
+        <div class="message success">
+            {{ message }}
+        </div>
+        {% endif %}
+
+         <!-- 使用专门的容器包裹按钮 -->
+        <div class="button-container">
+            <a href="/admin/add_goods" class="btn btn-primary">添加新商品</a>
+        </div>
+
+        <table class="goods-table">
+            <thead>
+                <tr>
+                    <th>商品ID</th>
+                    <th>商品图片</th>
+                    <th>商品名称</th>
+                    <th>价格</th>
+                    <th>销量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for good in goods %}
+                <tr id="goods-{{ good.id }}">
+                    <td>{{ good.id }}</td>
+                    <td>
+                        {% if good.img %}
+                            {% if good.img.startswith(('http://', 'https://')) %}
+                                <img src="{{ good.img }}" class="goods-image" alt="{{ good.name }}">
+                            {% else %}
+                                <img src="/static/img/upload/{{ good.img }}" class="goods-image" alt="{{ good.name }}" onerror="this.onerror=null;this.src='/static/img/{{ good.img }}';">
+                            {% endif %}
+                        {% else %}
+                            <img src="/static/img/default.jpg" class="goods-image" alt="暂无图片">
+                        {% endif %}
+                    </td>
+                    <td>{{ good.name }}</td>
+                    <td>¥{{ good.price }}</td>
+                    <td>{{ good.sales }}</td>
+                    <td>
+                        <div class="actions">
+                            <a href="/admin/edit_goods/{{ good.id }}" class="btn btn-secondary">修改</a>
+                            <button class="btn btn-danger delete-btn" data-id="{{ good.id }}">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 删除确认和处理
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const goodsId = this.getAttribute('data-id');
+                if (confirm(`确定要删除ID为 ${goodsId} 的商品吗？此操作不可恢复。`)) {
+                    fetch(`/admin/delete_goods/${goodsId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 移除DOM元素
+                            const row = document.getElementById(`goods-${goodsId}`);
+                            if (row) {
+                                row.style.backgroundColor = '#ffdddd';
+                                row.style.transition = 'opacity 0.3s';
+                                row.style.opacity = '0';
+                                setTimeout(() => {
+                                    row.remove();
+                                }, 300);
+                            }
+                            // 显示成功消息
+                            alert('删除成功！');
+                        } else {
+                            alert('删除失败: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('删除过程中发生错误');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

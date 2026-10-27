@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css\测试1.css">
+    <script src="../js/isFuntion.js"></script>
+     <script src="/static/js/carousel.js"></script>
+    <style>
+    /* 登录弹窗样式 */
+    .login-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+    .login-modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    .login-btn {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px;
+    }
+    .login-btn:hover {
+        background: #0056b3;
+    }
+
+      /* 轮播图额外样式 */
+    .dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+    }
+    /* 箭头按钮样式 */
+    .carousel-arrow {
+        position: absolute;
+        top: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        transform: translateY(-50%);
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .carousel-arrow:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .prev-arrow {
+        left: 15px;
+    }
+
+    .next-arrow {
+        right: 15px;
+    }
+    /* 商品卡片样式优化 */
+    .good_li {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .good_li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .good_li img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: opacity 0.3s ease;
+    }
+    .good_li:hover img {
+        opacity: 0.9;
+    }
+
+
+</style>
+</head>
+<body>
+
+    <header id="header">
+        <!-- 1 -->
+        <div id="wrap">
+            <div id="logo">
+                <a href="#">
+                    <img src="../static/img/47.jpg" alt="">
+                </a>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li>
+                        <a href="">首页</a>
+                    </li>
+                    <li>
+                        <a href="">订单</a>
+                    </li>
+                    <li>
+                        <a href="">收藏</a>
+                    </li>
+                    <li>
+                        <a href="/profile">我的</a>
+                    </li>
+                    <li>
+                        <a href="">搜索</a>
+                    </li>
+                    <li>
+                        <a href="/cart">购物车</a>
+                    </li>
+                    <li>
+                        <a href="">帮助</a>
+                    </li>
+                </ul>
+
+            </nav>
+
+
+         <!-- 搜索框放在单独的容器中 -->
+            <div class="search-container">
+
+                 <form action="/search" method="get" class="search-box">
+                    <input type="text" class="search-input" name="keyword" placeholder="请输入搜索内容">
+                    <button type="submit" class="search-button">搜索</button>
+                </form>
+            </div>
+
+
+            <div id="h_right">
+                {% if user %}
+                    {% if user.img %}
+                    	<img src="img/upload/{{ user.img }}"  alt="">
+
+
+                    {% else %}
+
+                    	<img src="/static/img/45.jpg" alt="">
+                    {% endif %}
+                      <p>{{ user.username }}</p>
+
+                {% else %}
+
+                        <div class="login-modal" id="loginModal">
+                            <div class="login-modal-content">
+                                <h3>需要登录</h3>
+                                <p>请先登录才能访问此页面</p>
+                                <button class="login-btn" onclick="window.location.href='/login'">立即登录</button>
+                            </div>
+                        </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+{#            <div id="g_right">#}
+{##}
+{#                <a href="/login">登录/注册</a>#}
+{##}
+{#            </div>#}
+
+{#            <button type="button" onclick="window.location.href='/logout'">注销</button>#}
+{#            <br>#}
+{#            <a href="/admin"><h3>管理中心</h3></a>#}
+{##}
+{#            <br>#}
+{##}
+{#            <a href="/showData"><h3>销售数据</h3></a>#}
+{#            <a href="/random_page"><h3>点名</h3></a>#}
+
+
+
+        </div>
+
+
+        <!-- 2 -->
+
+
+    </header>
+    <!-- 主体内容 -->
+
+
+    <div id="content">
+        <div id="box3">
+            <div class="ictex">
+                <span >分类</span>
+            </div>
+
+            <div class="ic">
+                <i class="ic1"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E5%A5%B3%E8%A3%85&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E5%A5%B3%E8%A3%85&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d6_first.11262a89ftt06D&tab=all" target="_blank">衣服</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic2"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E9%A3%9F%E5%93%81&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E9%A3%9F%E5%93%81&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d9_first.11262a89ftt06D&tab=all" target="_blank">面包</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic3"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E6%96%87%E5%85%B7&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&q=%E6%96%87%E5%85%B7&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d2_fourth.11262a89ftt06D" target="_blank">文具</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic4"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E7%94%9F%E9%B2%9C&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E7%94%9F%E9%B2%9C&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d9_second.11262a89ftt06D&tab=all" target="_blank">水果</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic5"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E5%9B%BE%E4%B9%A6&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E5%9B%BE%E4%B9%A6&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d11_fourth.11262a89ftt06D&tab=all" target="_blank">书籍</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic6"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E7%89%9B%E5%A5%B6&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E7%89%9B%E5%A5%B6&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d9_first.11262a89ftt06D&tab=all" target="_blank">奶制品</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic7"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E6%95%B0%E7%A0%81&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E6%95%B0%E7%A0%81&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d3_fourth.11262a89ftt06D&tab=all" target="_blank">电子</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic8"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&commend=all&ie=utf8&initiative_id=tbindexz_20170306&keyword=%E6%B0%B4&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&preLoadOrigin=https%3A%2F%2Fwww.taobao.com&q=%E6%B0%B4&refpid=mm_2898300158_3078300397_115665800437&search_type=item&sourceId=tb.index&spm=tbpc.pc_sem_alimama%2Fa.search_manual.0&ssid=s5-e&tab=all" target="_blank">水</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic9"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&commend=all&ie=utf8&initiative_id=tbindexz_20170306&keyword=%E9%9B%A8%E4%BC%9E&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&preLoadOrigin=https%3A%2F%2Fwww.taobao.com&q=%E9%9B%A8%E4%BC%9E&refpid=mm_2898300158_3078300397_115665800437&search_type=item&sourceId=tb.index&spm=tbpc.pc_sem_alimama%2Fa.search_manual.0&ssid=s5-e&tab=all" target="_blank">防雨物</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic10"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E5%A5%B3%E9%9E%8B&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E5%A5%B3%E9%9E%8B&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d7_first.11262a89ftt06D&tab=all" target="_blank">鞋子</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic11"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E7%81%AF&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E7%81%AF&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d7_first.11262a89ftt06D&tab=all" target="_blank">灯</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic12"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E6%B2%90%E6%B5%B4&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E6%B2%90%E6%B5%B4&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d7_first.11262a89ftt06D&tab=all" target="_blank">沐浴</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic13"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E6%A2%B3%E5%A6%86&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E6%A2%B3%E5%A6%86&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d7_first.11262a89ftt06D&tab=all" target="_blank">梳妆</a>
+            </div>
+
+            <div class="ic">
+                <i class="ic14"></i>
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&commend=all&ie=utf8&initiative_id=tbindexz_20170306&keyword=%E8%80%B3%E6%9C%BA&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&preLoadOrigin=https%3A%2F%2Fwww.taobao.com&q=%E8%80%B3%E6%9C%BA&refpid=mm_2898300158_3078300397_115665800437&search_type=item&sourceId=tb.index&spm=tbpc.pc_sem_alimama%2Fa.search_manual.0&ssid=s5-e&tab=all" target="_blank">耳机</a>
+            </div>
+
+            <div class="ic">
+                    <i class="ic15"></i>
+                    <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&commend=all&ie=utf8&initiative_id=tbindexz_20170306&keyword=%E8%A2%9C%E5%AD%90&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&preLoadOrigin=https%3A%2F%2Fwww.taobao.com&q=%E8%A2%9C%E5%AD%90&refpid=mm_2898300158_3078300397_115665800437&search_type=item&sourceId=tb.index&spm=tbpc.pc_sem_alimama%2Fa.search_manual.0&ssid=s5-e&tab=all" target="_blank">袜子</a>
+            </div>
+            <div class="icgd">
+                <a href="https://uland.taobao.com/sem/tbsearch?bc_fl_src=tbsite_T9W2LtnM&channelSrp=bingSomama&clk1=9c05863875f226c325190ea9fbcf610f&keyword=%E5%8F%A0%E5%88%B8%E4%BD%8E%E8%87%B37.7%E6%8A%98&localImgKey=&msclkid=7024d4bb91db159ff9eabc4ddd69bf3f&page=1&q=%E5%8F%A0%E5%88%B8%E4%BD%8E%E8%87%B37.7%E6%8A%98&refpid=mm_2898300158_3078300397_115665800437&spm=tbpc.pc_sem_alimama%2Fa.201867-main.d1_first.11262a89ftt06D&tab=all" target="_blank">
+                    <img src="../img/44.jpg" alt="">
+                </a>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- 中间滑动图片区域 -->
+            <div class="banner">
+                <img src="../img/北流鸭塘鱼.webp" alt="轮播图1" >
+                <img src="../static/img/北流凉亭鸡.webp" alt="轮播图2" >
+                <img src="../img/北流荔枝.webp" alt="轮播图3" >
+                <img src="../img/北流桂圆干.jpg" alt="轮播图4" >
+
+                    <!-- 添加左右箭头按钮 -->
+                <button class="carousel-arrow prev-arrow">&lt;</button>
+                <button class="carousel-arrow next-arrow">&gt;</button>
+                <div class="dots">
+                    <span class="dot" style="--i:0"></span>
+                    <span class="dot" style="--i:1"></span>
+                    <span class="dot" style="--i:2"></span>
+                </div>
+            </div>
+            <!-- 右侧四列区域 -->
+            <div class="right-cols">
+                <div class="col1" >
+                    <h3>品质家居</h3>
+                    <p>超值优惠</p>
+                    <!-- <img src="" alt="品质家居"> -->
+                </div>
+                <div class="col2" >
+                    <h3>鲜嫩多汁</h3>
+                    <p>品质之选</p>
+                    <!-- <img src="#" alt="精致美妆"> -->
+                </div>
+                <div class="col3" >
+                    <h3>品质五金</h3>
+                    <p>超值特惠</p>
+                    <!-- <img src="#" alt="品质五金"> -->
+                </div>
+                <div class="col4">
+                    <h3>超值百货</h3>
+                    <p>省钱省心</p>
+                    <!-- <img src="#" alt="超值百货"> -->
+                </div>
+            </div>
+        </div>
+
+
+        <h2 class="section-title">热门推荐</h2>
+        <div id="list_wrap">
+            <ul>
+          <!-- 使用Jinja2循环动态展示商品 -->
+                {% if goods %}
+                    {% for good in goods %}
+                    <li class="good_li">
+                        <a href="/goods/{{ good.id }}" target="_blank">
+
+                            <!-- 商品图片 - 修复路径问题 -->
+                            {% if good.img %}
+                                <!-- 检查是否是完整URL -->
+                                {% if 'http' in good.img %}
+                                    <img src="{{ good.img }}" alt="{{ good.name }}" title="{{ good.name }}">
+                                <!-- 检查是否已经包含upload路径 -->
+                                {% elif 'upload' in good.img %}
+                                    <img src="/static/img/{{ good.img }}" alt="{{ good.name }}" title="{{ good.name }}">
+                                <!-- 普通图片文件 -->
+                                {% else %}
+                                    <!-- 尝试两种可能的路径 -->
+                                    <img src="/static/img/{{ good.img }}" alt="{{ good.name }}" title="{{ good.name }}" onerror="this.src='/static/img/upload/{{ good.img }}'">
+                                {% endif %}
+                            {% else %}
+                                <!-- 默认图片 -->
+                                <img src="/static/img/45.jpg" alt="{{ good.name }}" title="{{ good.name }}">
+                            {% endif %}
+
+                            <div class="g_name">
+                                {{ good.name }}
+                            </div>
+                             <div class="g_name">
+                                    {{ good.detail }}
+                            </div>
+                            <div class="g_price">
+                                <span id="new_p">￥{{ '%.2f'|format(good.price) }}</span>
+                            </div>
+                            <div class="g_sales">
+                                已售 {{ good.sales }}
+                            </div>
+                            <div class="g_seller">
+                                北流专卖店
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li style="text-align: center; width: 100%; padding: 50px 0;">
+                        暂无商品
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

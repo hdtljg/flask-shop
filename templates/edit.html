@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理中心</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+
+    <link rel="stylesheet" href="../css/edit.css">
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/isFuntion.js"></script>
+    <script src="../js/edit.js"></script>
+    </head>
+    <body>
+      <h1>管理用户</h1>
+      <table>
+        <tr>
+          <th>id</th>
+          <th>用户名（username）</th>
+          <th>手机号（telephone）</th>
+          <th>头像（picture）</th>
+            <th>角色（role）</th>
+          <th>操作</th>
+        </tr>
+        <tr>
+
+        </tr>
+           {% for user in users %}
+                <tr>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.username }}</td>
+                    {% if user.telephone %}
+                    	<td>{{ user.telephone }}</td>
+                    {% else %}
+                    	<td></td>
+                    {% endif %}
+
+                    {% if user.img %}
+                    	<td>{{ user.img }}</td>
+                    {% else %}
+                    	<td></td>
+                    {% endif %}
+
+                    {% if user.role %}
+                    	<td>{{ user.role }}</td>
+                    {% else %}
+                    	<td></td>
+                    {% endif %}
+
+
+                  <td>
+                      <div style="color: blue;display: inline-block" id="{{ user.id }}"  class="edit_data">修改</div>
+                      <div style="color: blue;display: inline-block" onclick="window.location.href='/delete?id={{ user.id }}'">删除</div>
+                  </td>
+                </tr>
+          {% endfor %}
+      </table>
+
+      <div id="wrap">
+            <div id="reg_wrap">
+                <div class="close">
+                    ×
+                </div>
+
+                <div id="form_box">
+                    <form action="#" id="userForm" method="post" enctype="multipart/form-data">
+                         <input type="hidden" name="id" id="user_id" value="">
+
+                        <div class="item">
+
+                            <input type="text" id="username" name="username" class="input_item">
+
+                            <div class="tip">用户名</div>
+
+                        </div>
+
+                        <div class="item">
+
+                            <input type="text" id="tel" name="tel" class="input_item">
+                            <div class="tip">手机号码</div>
+
+                        </div>
+
+                        <div class="item">
+
+                            <input type="file"  id="img" name="img">
+                            <div class="tip">头像</div>
+
+
+                        </div>
+
+
+                        <div class="btn" id="yes_btn">确定</div>
+                        <div class="btn" id="cancle_btn">取消</div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+</body>
+</html>
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>管理中心</title>#}
+{#    <style>#}
+{#        /* 全局样式重置与基础设置 */#}
+{#        * {#}
+{#            margin: 0;#}
+{#            padding: 0;#}
+{#            box-sizing: border-box;#}
+{#            font-family: "Microsoft YaHei", Arial, sans-serif;#}
+{#        }#}
+{##}
+{#        body {#}
+{#            background-color: #f0f7f4; /* 浅绿背景基调 */#}
+{#            padding: 20px;#}
+{#        }#}
+{##}
+{#        /* 标题样式 */#}
+{#        h1 {#}
+{#            color: #2d6a4f;#}
+{#            margin-bottom: 20px;#}
+{#            font-size: 24px;#}
+{#            font-weight: 600;#}
+{#            border-bottom: 2px solid;#}
+{#            border-image: linear-gradient(to right, #28a745, #20c997) 1; /* 渐变绿下划线 */#}
+{#            padding-bottom: 10px;#}
+{#        }#}
+{##}
+{#        /* 表格样式优化 */#}
+{#        table {#}
+{#            width: 100%;#}
+{#            border: 1px solid #d1e7dd;#}
+{#            border-collapse: collapse;#}
+{#            background-color: #fff;#}
+{#            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.1);#}
+{#            border-radius: 4px;#}
+{#            overflow: hidden;#}
+{#        }#}
+{##}
+{#        th {#}
+{#            background: linear-gradient(to right, #28a745, #20c997); /* 渐变绿表头 */#}
+{#            color: #fff;#}
+{#            padding: 12px 8px;#}
+{#            text-align: left;#}
+{#            font-weight: 500;#}
+{#            border: 1px solid #1e7e34;#}
+{#        }#}
+{##}
+{#        td {#}
+{#            padding: 12px 8px;#}
+{#            text-align: left;#}
+{#            border: 1px solid #d1e7dd;#}
+{#            color: #212529;#}
+{#        }#}
+{##}
+{#        tr:nth-child(even) {#}
+{#            background-color: #f8fefa; /* 浅绿奇偶行 */#}
+{#        }#}
+{##}
+{#        tr:hover {#}
+{#            background-color: #e6f7ef; /*  hover浅绿高亮 */#}
+{#            transition: background-color 0.2s ease;#}
+{#        }#}
+{##}
+{#        /* 操作按钮样式 */#}
+{#        .edit_data {#}
+{#            color: #28a745; /* 绿色修改按钮 */#}
+{#            cursor: pointer;#}
+{#            margin-right: 15px;#}
+{#            transition: color 0.2s ease;#}
+{#        }#}
+{##}
+{#        .edit_data:hover {#}
+{#            color: #1e7e34; /* 深绿hover */#}
+{#            text-decoration: underline;#}
+{#        }#}
+{##}
+{#        td div[onclick] {#}
+{#            color: #dc3545; /* 删除按钮保留红色对比 */#}
+{#            cursor: pointer;#}
+{#            transition: color 0.2s ease;#}
+{#        }#}
+{##}
+{#        td div[onclick]:hover {#}
+{#            color: #c82333;#}
+{#            text-decoration: underline;#}
+{#        }#}
+{##}
+{#        /* 模态框遮罩层 */#}
+{#        #wrap {#}
+{#            position: fixed;#}
+{#            top: 0;#}
+{#            left: 0;#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            background-color: rgba(40, 167, 69, 0.3); /* 渐变绿遮罩 */#}
+{#            display: none;#}
+{#            justify-content: center;#}
+{#            align-items: center;#}
+{#            z-index: 1000;#}
+{#        }#}
+{##}
+{#        /* 模态框主体 */#}
+{#        #reg_wrap {#}
+{#            width: 450px;#}
+{#            background-color: #fff;#}
+{#            border-radius: 8px;#}
+{#            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);#}
+{#            padding: 20px;#}
+{#            position: relative;#}
+{#            border: 1px solid #d1e7dd;#}
+{#        }#}
+{##}
+{#        /* 关闭按钮 */#}
+{#        .close {#}
+{#            position: absolute;#}
+{#            top: 15px;#}
+{#            right: 20px;#}
+{#            font-size: 20px;#}
+{#            color: #6c757d;#}
+{#            cursor: pointer;#}
+{#            transition: color 0.2s ease;#}
+{#        }#}
+{##}
+{#        .close:hover {#}
+{#            color: #28a745; /* 绿色hover */#}
+{#        }#}
+{##}
+{#        /* 表单样式 */#}
+{#        #form_box {#}
+{#            margin-top: 10px;#}
+{#        }#}
+{##}
+{#        .item {#}
+{#            position: relative;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{##}
+{#        .input_item {#}
+{#            width: 100%;#}
+{#            padding: 10px 12px;#}
+{#            border: 1px solid #d1e7dd;#}
+{#            border-radius: 4px;#}
+{#            font-size: 14px;#}
+{#            color: #212529;#}
+{#            outline: none;#}
+{#            transition: all 0.2s ease;#}
+{#        }#}
+{##}
+{#        .input_item:focus {#}
+{#            border-color: #28a745; /* 绿色焦点边框 */#}
+{#            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* 绿色焦点阴影 */#}
+{#        }#}
+{##}
+{#        input[type="file"] {#}
+{#            padding: 8px;#}
+{#            border: 1px solid #d1e7dd;#}
+{#            border-radius: 4px;#}
+{#            width: 100%;#}
+{#            color: #495057;#}
+{#            transition: border-color 0.2s ease;#}
+{#        }#}
+{##}
+{#        input[type="file"]:hover {#}
+{#            border-color: #28a745;#}
+{#        }#}
+{##}
+{#        .tip {#}
+{#            position: absolute;#}
+{#            left: 12px;#}
+{#            top: -8px;#}
+{#            background-color: #fff;#}
+{#            padding: 0 5px;#}
+{#            color: #2d6a4f; /* 绿色提示文字 */#}
+{#            font-size: 12px;#}
+{#        }#}
+{##}
+{#        /* 按钮样式 */#}
+{#        .btn {#}
+{#            padding: 10px 20px;#}
+{#            border-radius: 4px;#}
+{#            cursor: pointer;#}
+{#            display: inline-block;#}
+{#            margin-right: 10px;#}
+{#            font-size: 14px;#}
+{#            font-weight: 500;#}
+{#            transition: all 0.2s ease;#}
+{#        }#}
+{##}
+{#        #yes_btn {#}
+{#            background: linear-gradient(to right, #28a745, #20c997); /* 渐变绿确定按钮 */#}
+{#            color: #fff;#}
+{#            border: 1px solid #1e7e34;#}
+{#        }#}
+{##}
+{#        #yes_btn:hover {#}
+{#            background: linear-gradient(to right, #1e7e34, #198754); /* 深绿hover */#}
+{#        }#}
+{##}
+{#        #cancle_btn {#}
+{#            background-color: #e9ecef;#}
+{#            color: #2d6a4f; /* 绿色文字取消按钮 */#}
+{#            border: 1px solid #d1e7dd;#}
+{#        }#}
+{##}
+{#        #cancle_btn:hover {#}
+{#            background-color: #d1e7dd;#}
+{#            color: #1e7e34;#}
+{#        }#}
+{#    </style>#}
+{##}
+{#    <link rel="stylesheet" href="../css/edit.css">#}
+{##}
+{#    <script src="../js/jquery-3.3.1.min.js"></script>#}
+{#    <script src="../js/isFuntion.js"></script>#}
+{#    <script src="../js/edit.js"></script>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>管理用户</h1>#}
+{#    <table>#}
+{#        <tr>#}
+{#            <th>id</th>#}
+{#            <th>用户名（username）</th>#}
+{#            <th>手机号（telephone）</th>#}
+{#            <th>头像（picture）</th>#}
+{#            <th>角色（role）</th>#}
+{#            <th>操作</th>#}
+{#        </tr>#}
+{#        <tr></tr>#}
+{#        {% for user in users %}#}
+{#        <tr>#}
+{#            <td>{{ user.id }}</td>#}
+{#            <td>{{ user.username }}</td>#}
+{#            {% if user.telephone %}#}
+{#            <td>{{ user.telephone }}</td>#}
+{#            {% else %}#}
+{#            <td></td>#}
+{#            {% endif %}#}
+{##}
+{#            {% if user.img %}#}
+{#            <td>{{ user.img }}</td>#}
+{#            {% else %}#}
+{#            <td></td>#}
+{#            {% endif %}#}
+{##}
+{#            {% if user.role %}#}
+{#            <td>{{ user.role }}</td># 首页路由#}
+{#@app.route('/index')#}
+{#def index():#}
+{#    # 获取所有商品数据#}
+{#    goods_list = select_all_goods()#}
+{#    if current_user.is_authenticated:#验证是否有用户登录#}
+{#        return render_template('index.html',user=current_user, goods=goods_list)#}
+{##}
+{#    return render_template('index.html', goods=goods_list)#}
+{##}
+{#            {% else %}#}
+{#            <td></td>#}
+{#            {% endif %}#}
+{##}
+{#            <td>#}
+{#                <div style="display: inline-block" id="{{ user.id }}" class="edit_data">修改</div>#}
+{#                <div style="display: inline-block" onclick="window.location.href='/delete?id={{ user.id }}'">删除</div>#}
+{#            </td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{#    </table>#}
+{##}
+{#    <div id="wrap">#}
+{#        <div id="reg_wrap">#}
+{#            <div class="close">×</div>#}
+{#            <div id="form_box">#}
+{#                <form action="#" id="userForm" method="post" enctype="multipart/form-data">#}
+{#                    <input type="hidden" name="id" id="user_id" value="">#}
+{#                    <div class="item">#}
+{#                        <input type="text" id="username" name="username" class="input_item">#}
+{#                        <div class="tip">用户名</div>#}
+{#                    </div>#}
+{#                    <div class="item">#}
+{#                        <input type="text" id="tel" name="tel" class="input_item">#}
+{#                        <div class="tip">手机号码</div>#}
+{#                    </div>#}
+{#                    <div class="item">#}
+{#                        <input type="file" id="img" name="img">#}
+{#                        <div class="tip">头像</div>#}
+{#                    </div>#}
+{#                    <div class="btn" id="yes_btn">确定</div>#}
+{#                    <div class="btn" id="cancle_btn">取消</div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        // 模态框交互逻辑（保持原有功能）#}
+{#        $(document).ready(function() {#}
+{#            $('.edit_data').click(function() {#}
+{#                $('#wrap').css('display', 'flex');#}
+{#            });#}
+{#            $('.close, #cancle_btn').click(function() {#}
+{#                $('#wrap').hide();#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#</body>#}
+{#</html>#}

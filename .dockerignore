@@ -1,0 +1,10 @@
+.venv
+.idea
+__pycache__
+**/__pycache__
+*.pyc
+*.log
+.env
+.git
+.gitignore
+deploy/flask_data.sql

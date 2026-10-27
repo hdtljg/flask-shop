@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.env
+.idea/
+*.log
+*.sqlite3
+
+# 本地数据库导出：含真实姓名、学号、手机号和密码哈希，不要上传
+deploy/flask_data.sql
+
+# 用户上传的图片属于运行时数据，不上传；保留目录占位文件
+static/img/upload/*
+!static/img/upload/.gitkeep

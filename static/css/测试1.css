@@ -1,0 +1,489 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+#header{
+    height: 100px;
+    background: linear-gradient(to bottom,rgb(127, 239, 127),rgb(204,204,204));
+     position: relative;
+
+}
+#wrap{
+    /* text-align: center;  */
+    /* padding: 20px; */
+
+    margin: 0 auto;
+    width: 90%;
+    height: 100px;
+
+
+    /* 添加清除浮动 */
+    overflow: hidden;
+     /*border: 1px solid red;*/
+}
+#logo{
+    margin-top: 12px;
+    margin-left: 55px;
+    /* display: inline-block; */
+    float: left;
+
+}
+#logo img{
+    width: 70px;
+    height: 58px;
+}
+#nav{
+    float: left;
+    /* display: inline-block; */
+    margin-left: 40px;
+}
+#nav li{
+    list-style:none ;
+    margin-right: 25px;
+    display: inline-block;
+    /* float: left; */
+
+    line-height: 70px;
+    /* border: 1px solid blue; */
+}
+a{
+    text-decoration: none;
+    color: rgb(0,0,0);
+}
+#nav a:hover{
+    color: blue;
+}
+#content{
+    margin: 0 auto;
+    width: 84%;
+    height: 300px;
+
+    /* border: 1px solid rebeccapurple; */
+}
+
+.search-box{
+
+    display: flex;
+
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+    /* border: 1px solid red; */
+}
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 0 15px;
+    font-size: 14px;
+    outline: none;
+}
+.search-button {
+    width: 80px;
+    background-color:green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+.search-container {
+    float: left;
+    margin-left: 40px;
+    margin-top: 18px;
+    width: 40%;
+}
+/* 主体 */
+/* 精灵技术 */
+#box3{
+    /* margin-left: 80px; */
+    /* float: left; */
+    width: 100%;
+    height: 80px;
+    /* border: 2px solid red; */
+}
+.ictex{
+    /* width: 2px; */
+    float: left;
+    margin-top: 15px;
+    width: 20px;
+    height: 60px;
+
+
+    /* border: 1px solid rgb(77, 79, 78); */
+}
+.ictex span{
+      font-size: 20px;
+}
+.ic{
+    display: inline-block;
+    /* padding: 20px; */
+    text-align: center;
+    margin-left: 10px;
+    margin-top: 8px;
+    /* border: 1px solid red; */
+}
+
+.ic .ic1{
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat;
+    /* border: 1px solid red; */
+}
+.ic .ic2{
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -49px 0px;
+}
+.ic .ic3{
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -0px -55px;
+}
+.ic .ic4{
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -236px -105px;
+}
+.ic .ic5 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -236px 0px;
+}
+.ic .ic6 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat  -236px -55px;
+}
+.ic .ic7 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -98px 0;
+}
+.ic .ic8 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -145px 0;
+}
+.ic .ic9 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -147px -55px;
+}
+.ic .ic10 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat 0 -110px;
+}
+.ic .ic11 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -49px -110px;
+}
+.ic .ic12 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -98px -110px;
+}
+.ic .ic13 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -147px -110px;
+}
+.ic .ic14 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -196px -55px;
+}
+.ic .ic15 {
+    display: block;
+    width: 44px;
+    height: 50px;
+    background: url(../img/38.jpg) no-repeat -196px -110px;
+}
+.icgd{
+    /* margin-top: 10px; */
+    float: right;
+    width: 32%;
+    height: 80px;
+}
+.icgd img{
+    width: 100%;
+    height: 100%;
+}
+/* 滑动图片 */
+.container {
+    float: left;
+    display: flex;
+    width: 100%;
+    margin: 20px auto;
+    /* border: 1px solid rebeccapurple; */
+}
+/* 中间滑动图片样式 */
+.banner {
+    float: left;
+    flex: 1;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 20px;
+    /* border: 1px solid saddlebrown; */
+}
+.banner img {
+
+    width: 100%;
+    height: 100%;
+     /*object-fit: cover;*/
+    display:block;
+}
+/* 轮播图指示器样式 */
+.dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot:hover {
+    background-color: #999;
+}
+
+/* 右侧四列样式 */
+.right-cols {
+    width: 200px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+}
+.right-cols .col1{
+
+    width: 200px;
+    height: 100px;
+    background-image: url(../img/北流陶瓷.webp);
+    background-size: cover;
+}
+.right-cols .col2{
+    margin-top: 3px;
+    width: 200px;
+    height: 100px;
+    background-image: url(../img/北流凉亭鸡.webp);
+    background-size: cover;
+}
+.right-cols .col3{
+    margin-top: 3px;
+    width: 200px;
+    height: 100px;
+    background-image: url(../img/玉林正骨水.webp);
+    background-size: cover;
+}
+.right-cols .col4{
+    margin-top: 3px;
+    width: 200px;
+    height: 100px;
+    background-image: url(../img/广西肉桂.webp);
+    background-size: cover;
+}
+.section-title {
+
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ff5000;
+    color: #333;
+}
+#h_right{
+    margin-top: 3px;
+    /*display: none;*/
+    float: right;
+    height: 0em;
+    width: 10em;
+    text-align: center;
+    position: relative; /* 关键：为下拉菜单提供定位上下文 */
+    cursor: pointer; /* 表明这是可点击的 */
+     /*border: 1px solid red;*/
+
+
+}
+#h_right img{
+
+    width: 50px;
+    height: 49px;
+    border-radius: 25px;
+}
+#g_right{
+    float: right;
+    height: 5em;
+    width: 11em;
+    text-align: center;
+}
+#g_right a{
+    display: inline-block;
+    height: 3em;
+    width: 6em;
+    text-align: center;
+    line-height: 3em;
+    margin-top: 7px;
+    /* background-color:aliceblue; */
+     border: 1px solid white;
+     border-radius: 10px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+
+    right: 0;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 150px;
+    padding: 10px 0;
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+
+    border: 1px solid #e8e8e8; /* 添加边框 */
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f7fa;
+    color: #4a6cf7;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
+}
+
+.logout-btn {
+    color: #ff4d4f !important; /* 使用!important确保颜色生效 */
+    font-weight: 500;
+}
+
+.logout-btn:hover {
+    background-color: #fff2f0 !important;
+    color: #ff4d4f !important;
+}
+.good_li{
+    display: inline-block;
+    /* float: left; */
+    margin-left: 30px;
+    margin-top: 10px;
+    box-shadow: 10px 10px 10px -10px ;
+    padding: 15px;
+    list-style: none;
+    width: 240px;
+    height: 400px;
+    border: 1px solid #ccc;
+
+
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.good_li img{
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+
+}
+.good_li:hover{
+    /* background-color: red; */
+    /* border-width: 2px; */
+    border-color: red;
+}
+.g_name{
+    font-size: 20px;
+    height: 40px;
+    line-height: 20px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    /*弹性伸缩盒子模型显示*/
+    display:-webkit-box;
+    /*限制在一个块元素显示的文本的行数*/
+    -webkit-line-clamp:2;
+    /*设置或检索伸缩盒对象的子元素的排列方式*/
+     -webkit-box-orient:vertical;
+    /* border: 1px solid red; */
+     word-break: break-word;
+     margin-bottom: 5px;
+
+
+
+}
+
+#old_p{
+    color:black;
+    text-decoration: line-through;
+}
+
+#new_p{
+    font-weight: bold;
+    color: red;
+    font-size: 22px;
+    /* text-decoration: underline; */
+}
+.g_price,.g_seller{
+   /*margin-top: 10px;*/
+    margin-top: 8px;
+    height: 32px; /* 从28px增大到32px */
+    line-height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.g_seller{
+    color: #6d6969;
+}
+
+
+

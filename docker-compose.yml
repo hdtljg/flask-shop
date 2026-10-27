@@ -1,0 +1,44 @@
+name: flask-shop
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me-root}
+      MYSQL_DATABASE: flask_data
+      MYSQL_USER: flask_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me-db}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # 仅当 mysql_data 卷为空时执行：
+      # 00-schema.sql 先建空表；若本机存在 flask_data.sql，再导入完整数据。
+      - ./deploy:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-dotenv}
+      DATABASE_URL: mysql+pymysql://flask_user:${MYSQL_PASSWORD:-change-me-db}@db:3306/flask_data?charset=utf8mb4
+      MAX_CONTENT_LENGTH_MB: ${MAX_CONTENT_LENGTH_MB:-16}
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+    volumes:
+      # 上传的图片持久化到宿主机，重建容器不丢
+      - ./static/img/upload:/app/static/img/upload
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

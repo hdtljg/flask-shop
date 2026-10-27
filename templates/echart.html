@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/show.js"></script>
+    <style>
+         #side_bar{
+            margin-left: 100px;
+             position: fixed;
+
+        }
+        #side_bar li{
+            list-style: none;
+            line-height: 50px;
+            font-size: 22px;
+        }
+        #side_bar li:hover{
+            text-decoration: underline;
+            color:blue;
+        }
+
+        #content{
+            width: 850px;
+            margin: 0 auto;
+        }
+        #data_line,#data_bar,#data_pie{
+            padding: 30px;
+            margin-top: 30px;
+            width: 850px;
+            height: 450px;
+            border: 2px solid #57b2c9;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="main">
+        <div id="side_bar">
+            <ul>
+                <li class="side_list" title="line">
+                    显示折线图
+                </li>
+                <li class="side_list" title="bar">
+                    显示柱状图
+                </li>
+                <li class="side_list" title="pie">
+                    显示饼图
+                </li>
+            </ul>
+        </div>
+
+        <div id="content">
+            <div id="data_line"></div>
+            <div id="data_bar"></div>
+            <div id="data_pie"></div>
+        </div>
+    </div>
+
+</body>
+</html>

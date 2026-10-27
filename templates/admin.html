@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理中心</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>管理用户</h1>
+      <table>
+        <tr>
+          <th>id</th>
+          <th>用户名（username）</th>
+          <th>手机号（telephone）</th>
+          <th>头像（picture）</th>
+            <th>角色(role)</th>
+          <th>操作</th>
+        </tr>
+
+          {% for user in users %}
+                <tr>
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.username }}</td>
+                    {% if user.telephone %}
+                    	<td>{{ user.telephone }}</td>
+                    {% else %}
+                    	<td></td>
+                    {% endif %}
+
+                    {% if user.img %}
+                    	<td>{{ user.img }}</td>
+                    {% else %}
+                    	<td></td>
+                    {% endif %}
+
+
+
+                  <td>
+                      <a href="#">修改</a>
+                      <a href="/delete?id={{ user.id }}">删除</a>
+                  </td>
+                </tr>
+          {% endfor %}
+
+
+
+
+      </table>
+
+</body>
+</html>

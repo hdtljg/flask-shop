@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 我的商城</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+         body{font-size:18px; font-family:"微软雅黑"; background: no-repeat top center; background-size: cover; color: #333;} /* 设置全局字体颜色 */
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .cart-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .cart-table th,
+        .cart-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-table th {
+            background-color: #f5f5f5;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+        .cart-item-name {
+            color: #34495e;
+            text-decoration: none;
+        }
+        .cart-item-name:hover {
+            color: #3498db;
+        }
+        .cart-item-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .remove-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .remove-button:hover {
+            background-color: #c0392b;
+        }
+        .cart-summary {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .total-price {
+            font-size: 20px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .checkout-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .checkout-button:hover {
+            background-color: #c0392b;
+        }
+        .empty-cart {
+            text-align: center;
+            padding: 60px 0;
+            color: #7f8c8d;
+        }
+        .continue-shopping {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .continue-shopping:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1 class="cart-header">我的购物车</h1>
+
+        {% if cart_items %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>商品信息</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>
+                                <div>
+                                    <a href="/goods/{{ item.goods.id }}">
+                                        {% if item.goods.img %}
+                                                <!-- 检查是否是完整URL -->
+                                                {% if 'http' in item.goods.img %}
+                                                    <img src="{{ item.goods.img }}" alt="{{ item.goods.name }}" class="cart-item-image">
+                                                <!-- 检查是否已经包含upload路径 -->
+                                                {% elif 'upload' in item.goods.img %}
+                                                    <img src="/static/img/{{ item.goods.img }}" alt="{{ item.goods.name }}" class="cart-item-image">
+                                                <!-- 普通图片文件 -->
+                                                {% else %}
+                                                    <!-- 尝试两种可能的路径 -->
+                                                    <img src="/static/img/{{ item.goods.img }}" alt="{{ item.goods.name }}" class="cart-item-image" onerror="this.src='/static/img/upload/{{ item.goods.img }}'">
+                                                {% endif %}
+                                            {% else %}
+                                                <!-- 默认图片 -->
+                                                <img src="/static/img/45.jpg" alt="暂无图片" class="cart-item-image">
+                                            {% endif %}
+                                    </a>
+                                    <a href="/goods/{{ item.goods.id }}" class="cart-item-name">{{ item.goods.name }}</a>
+                                </div>
+                            </td>
+                            <td class="cart-item-price">¥{{ item.goods.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td class="cart-item-price">¥{{ "%.2f"|format(item.goods.price * item.quantity) }}</td>
+                            <td>
+                               <button class="remove-button" onclick="removeFromCart({{ item.id }})">删除</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <div class="total-price">总价：¥{{ "%.2f"|format(total_price) }}</div>
+                <div style="margin-top: 10px; display: flex; gap: 15px; justify-content: flex-end;">
+                    <a href="/index" class="continue-shopping">继续购物</a>
+                    <button class="checkout-button" onclick="checkoutCart()">结算</button>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-cart">
+                <p>您的购物车是空的</p>
+                <a href="/index" class="continue-shopping">继续购物</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function removeFromCart(cartId) {
+            if (confirm('确定要删除这个商品吗？')) {
+                fetch(`/api/remove_from_cart/${cartId}`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('删除成功');
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('删除失败');
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+         function checkoutCart() {
+            if (confirm('确定要购买购物车中的所有商品吗？')) {
+                fetch('/api/checkout_cart', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('购买成功！');
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('结算失败');
+                    console.error('Error:', error);
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>
